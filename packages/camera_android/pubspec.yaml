@@ -1,0 +1,32 @@
+name: camera_android
+description: Android implementation of the camera plugin.
+version: 0.10.0
+publish_to: none
+
+environment:
+  sdk: ">=2.14.0 <3.0.0"
+  flutter: ">=2.8.0"
+
+flutter:
+  plugin:
+    implements: camera
+    platforms:
+      android:
+        package: io.flutter.plugins.camera
+        pluginClass: CameraPlugin
+        dartPluginClass: AndroidCamera
+
+dependencies:
+  camera_platform_interface:
+    path: ../../packages/camera_platform_interface
+  flutter:
+    sdk: flutter
+  flutter_plugin_android_lifecycle: ^2.0.2
+  stream_transform: ^2.0.0
+
+dev_dependencies:
+  async: ^2.5.0
+  flutter_driver:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter

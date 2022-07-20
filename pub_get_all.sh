@@ -1,4 +1,4 @@
-for package in ./**/pubspec.yaml
+for package in ./packages/**/pubspec.yaml
 do
   cd $(dirname $package)
 if command -v fvm &> /dev/null
