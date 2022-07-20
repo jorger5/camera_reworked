@@ -93,25 +93,25 @@
     },
     {
       "name": "camera_android",
-      "rootUri": "../../packages/camera_android",
+      "rootUri": "file:///Users/jorgerincon/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera_android-0.10.0",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "camera_avfoundation",
-      "rootUri": "../../packages/camera_avfoundation",
+      "rootUri": "file:///Users/jorgerincon/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera_avfoundation-0.9.8+2",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "camera_platform_interface",
-      "rootUri": "../../packages/camera_platform_interface",
+      "rootUri": "file:///Users/jorgerincon/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera_platform_interface-2.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "camera_web",
-      "rootUri": "../../packages/camera_web",
+      "rootUri": "file:///Users/jorgerincon/development/flutter/.pub-cache/hosted/pub.dartlang.org/camera_web-0.3.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -590,7 +590,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-07-20T16:04:53.255947Z",
+  "generated": "2022-07-20T16:30:35.333660Z",
   "generator": "pub",
   "generatorVersion": "2.17.1"
 }

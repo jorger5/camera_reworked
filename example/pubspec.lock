@@ -109,30 +109,30 @@ packages:
   camera_android:
     dependency: transitive
     description:
-      path: "../packages/camera_android"
-      relative: true
-    source: path
+      name: camera_android
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.10.0"
   camera_avfoundation:
     dependency: transitive
     description:
-      path: "../packages/camera_avfoundation"
-      relative: true
-    source: path
+      name: camera_avfoundation
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.9.8+2"
   camera_platform_interface:
     dependency: transitive
     description:
-      path: "../packages/camera_platform_interface"
-      relative: true
-    source: path
+      name: camera_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.2.0"
   camera_web:
     dependency: transitive
     description:
-      path: "../packages/camera_web"
-      relative: true
-    source: path
+      name: camera_web
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.3.0"
   characters:
     dependency: transitive

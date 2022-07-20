@@ -20,14 +20,10 @@ flutter:
         default_package: camera_web
 
 dependencies:
-  camera_android:
-    path: packages/camera_android
-  camera_avfoundation:
-    path: packages/camera_avfoundation
-  camera_platform_interface:
-    path: packages/camera_platform_interface
-  camera_web:
-    path: packages/camera_web
+  camera_android: any
+  camera_avfoundation: any
+  camera_platform_interface: any
+  camera_web: any
   flutter:
     sdk: flutter
   flutter_plugin_android_lifecycle: ^2.0.2
@@ -41,3 +37,13 @@ dev_dependencies:
   mockito: ^5.0.0
   plugin_platform_interface: ^2.0.0
   video_player: ^2.0.0
+
+dependency_overrides: 
+  camera_android:
+    path: packages/camera_android
+  camera_avfoundation:
+    path: packages/camera_avfoundation
+  camera_platform_interface:
+    path: packages/camera_platform_interface
+  camera_web:
+    path: packages/camera_web
