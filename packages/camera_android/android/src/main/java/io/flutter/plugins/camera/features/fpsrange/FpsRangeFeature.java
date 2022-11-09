@@ -35,20 +35,19 @@ public class FpsRangeFeature extends CameraFeature<Range<Integer>> {
       // https://issuetracker.google.com/issues/189237151
       currentSetting = MAX_PIXEL4A_RANGE;
     } else {
-      currentSetting = MAX_PIXEL4A_RANGE;
-      // Range<Integer>[] ranges = cameraProperties.getControlAutoExposureAvailableTargetFpsRanges();
+      Range<Integer>[] ranges = cameraProperties.getControlAutoExposureAvailableTargetFpsRanges();
 
-      // if (ranges != null) {
-      //   for (Range<Integer> range : ranges) {
-      //     int upper = range.getUpper();
+      if (ranges != null) {
+        for (Range<Integer> range : ranges) {
+          int upper = range.getUpper();
 
-      //     if (upper >= 10) {
-      //       if (currentSetting == null || upper > currentSetting.getUpper()) {
-      //         currentSetting = range;
-      //       }
-      //     }
-      //   }
-      // }
+          if (upper >= 10) {
+            if (currentSetting == null || upper > currentSetting.getUpper()) {
+              currentSetting = range;
+            }
+          }
+        }
+      }
     }
   }
 

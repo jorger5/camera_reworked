@@ -225,9 +225,47 @@ void main() {
       );
 
       await controller.initialize();
-      bool _isDetecting = false;
+      bool isDetecting = false;
 
       await controller.startImageStream((CameraImageData image) {
+        if (isDetecting) {
+          return;
+        }
+
+        isDetecting = true;
+
+        expectLater(image, isNotNull).whenComplete(() => isDetecting = false);
+      });
+
+      expect(controller.value.isStreamingImages, true);
+
+      sleep(const Duration(milliseconds: 500));
+
+      await controller.stopImageStream();
+      await controller.dispose();
+    },
+  );
+
+  testWidgets(
+    'recording with image stream',
+    (WidgetTester tester) async {
+      final List<CameraDescription> cameras =
+          await CameraPlatform.instance.availableCameras();
+      if (cameras.isEmpty) {
+        return;
+      }
+
+      final CameraController controller = CameraController(
+        cameras[0],
+        ResolutionPreset.low,
+        enableAudio: false,
+      );
+
+      await controller.initialize();
+      bool _isDetecting = false;
+
+      await controller.startVideoRecording(
+          streamCallback: (CameraImageData image) {
         if (_isDetecting) {
           return;
         }
@@ -241,8 +279,10 @@ void main() {
 
       sleep(const Duration(milliseconds: 500));
 
-      await controller.stopImageStream();
+      await controller.stopVideoRecording();
       await controller.dispose();
+
+      expect(controller.value.isStreamingImages, false);
     },
   );
 }

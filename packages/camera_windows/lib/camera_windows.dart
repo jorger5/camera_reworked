@@ -22,7 +22,7 @@ class CameraWindows extends CameraPlatform {
   final MethodChannel pluginChannel =
       const MethodChannel('plugins.flutter.io/camera_windows');
 
-  /// Camera specific method channels to allow comminicating with specific cameras.
+  /// Camera specific method channels to allow communicating with specific cameras.
   final Map<int, MethodChannel> _cameraChannels = <int, MethodChannel>{};
 
   /// The controller that broadcasts events coming from handleCameraMethodCall
@@ -214,15 +214,24 @@ class CameraWindows extends CameraPlatform {
       pluginChannel.invokeMethod<void>('prepareForVideoRecording');
 
   @override
-  Future<void> startVideoRecording(
-    int cameraId, {
-    Duration? maxVideoDuration,
-  }) async {
+  Future<void> startVideoRecording(int cameraId,
+      {Duration? maxVideoDuration}) async {
+    return startVideoCapturing(
+        VideoCaptureOptions(cameraId, maxDuration: maxVideoDuration));
+  }
+
+  @override
+  Future<void> startVideoCapturing(VideoCaptureOptions options) async {
+    if (options.streamCallback != null || options.streamOptions != null) {
+      throw UnimplementedError(
+          'Streaming is not currently supported on Windows');
+    }
+
     await pluginChannel.invokeMethod<void>(
       'startVideoRecording',
       <String, dynamic>{
-        'cameraId': cameraId,
-        'maxVideoDuration': maxVideoDuration?.inMilliseconds,
+        'cameraId': options.cameraId,
+        'maxVideoDuration': options.maxDuration?.inMilliseconds,
       },
     );
   }

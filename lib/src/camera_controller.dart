@@ -5,12 +5,13 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:camera/camera.dart';
 import 'package:camera_platform_interface/camera_platform_interface.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quiver/core.dart';
+
+import '../camera.dart';
 
 /// Signature for a callback receiving the a camera image.
 ///
@@ -281,7 +282,7 @@ class CameraController extends ValueNotifier<CameraValue> {
       );
     }
     try {
-      final Completer<CameraInitializedEvent> _initializeCompleter =
+      final Completer<CameraInitializedEvent> initializeCompleter =
           Completer<CameraInitializedEvent>();
 
       _deviceOrientationSubscription = CameraPlatform.instance
@@ -302,7 +303,7 @@ class CameraController extends ValueNotifier<CameraValue> {
           .onCameraInitialized(_cameraId)
           .first
           .then((CameraInitializedEvent event) {
-        _initializeCompleter.complete(event);
+        initializeCompleter.complete(event);
       }));
 
       await CameraPlatform.instance.initializeCamera(
@@ -312,18 +313,18 @@ class CameraController extends ValueNotifier<CameraValue> {
 
       value = value.copyWith(
         isInitialized: true,
-        previewSize: await _initializeCompleter.future
+        previewSize: await initializeCompleter.future
             .then((CameraInitializedEvent event) => Size(
                   event.previewWidth,
                   event.previewHeight,
                 )),
-        exposureMode: await _initializeCompleter.future
+        exposureMode: await initializeCompleter.future
             .then((CameraInitializedEvent event) => event.exposureMode),
-        focusMode: await _initializeCompleter.future
+        focusMode: await initializeCompleter.future
             .then((CameraInitializedEvent event) => event.focusMode),
-        exposurePointSupported: await _initializeCompleter.future.then(
+        exposurePointSupported: await initializeCompleter.future.then(
             (CameraInitializedEvent event) => event.exposurePointSupported),
-        focusPointSupported: await _initializeCompleter.future
+        focusPointSupported: await initializeCompleter.future
             .then((CameraInitializedEvent event) => event.focusPointSupported),
       );
     } on PlatformException catch (e) {
@@ -458,12 +459,6 @@ class CameraController extends ValueNotifier<CameraValue> {
     assert(defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.iOS);
     _throwIfNotInitialized('stopImageStream');
-    if (value.isRecordingVideo) {
-      throw CameraException(
-        'A video recording is already started.',
-        'stopImageStream was called while a video is being recorded.',
-      );
-    }
     if (!value.isStreamingImages) {
       throw CameraException(
         'No camera is streaming images',
@@ -482,9 +477,13 @@ class CameraController extends ValueNotifier<CameraValue> {
 
   /// Start a video recording.
   ///
+  /// You may optionally pass an [onAvailable] callback to also have the
+  /// video frames streamed to this callback.
+  ///
   /// The video is returned as a [XFile] after calling [stopVideoRecording].
   /// Throws a [CameraException] if the capture fails.
-  Future<void> startVideoRecording() async {
+  Future<void> startVideoRecording(
+      {onLatestImageAvailable? onAvailable}) async {
     _throwIfNotInitialized('startVideoRecording');
     if (value.isRecordingVideo) {
       throw CameraException(
@@ -492,18 +491,21 @@ class CameraController extends ValueNotifier<CameraValue> {
         'startVideoRecording was called when a recording is already started.',
       );
     }
-    if (value.isStreamingImages) {
-      throw CameraException(
-        'A camera has started streaming images.',
-        'startVideoRecording was called while a camera was streaming images.',
-      );
+
+    Function(CameraImageData image)? streamCallback;
+    if (onAvailable != null) {
+      streamCallback = (CameraImageData imageData) {
+        onAvailable(CameraImage.fromPlatformInterface(imageData));
+      };
     }
 
     try {
-      await CameraPlatform.instance.startVideoRecording(_cameraId);
+      await CameraPlatform.instance.startVideoCapturing(
+          VideoCaptureOptions(_cameraId, streamCallback: streamCallback));
       value = value.copyWith(
           isRecordingVideo: true,
           isRecordingPaused: false,
+          isStreamingImages: onAvailable != null,
           recordingOrientation: Optional<DeviceOrientation>.of(
               value.lockedCaptureOrientation ?? value.deviceOrientation));
     } on PlatformException catch (e) {
@@ -522,6 +524,11 @@ class CameraController extends ValueNotifier<CameraValue> {
         'stopVideoRecording was called when no video is recording.',
       );
     }
+
+    if (value.isStreamingImages) {
+      stopImageStream();
+    }
+
     try {
       final XFile file =
           await CameraPlatform.instance.stopVideoRecording(_cameraId);
