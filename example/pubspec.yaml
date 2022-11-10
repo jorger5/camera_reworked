@@ -1,5 +1,6 @@
 name: camera_example
 description: Demonstrates how to use the camera plugin.
+version: 1.0.0
 publish_to: none
 
 environment:

@@ -93,25 +93,25 @@
     },
     {
       "name": "camera_android",
-      "rootUri": "file:///Users/jorgerincon/.pub-cache/hosted/pub.dartlang.org/camera_android-0.10.0+4",
+      "rootUri": "../../packages/camera_android",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "camera_avfoundation",
-      "rootUri": "file:///Users/jorgerincon/.pub-cache/hosted/pub.dartlang.org/camera_avfoundation-0.9.8+6",
+      "rootUri": "../../packages/camera_avfoundation",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "camera_platform_interface",
-      "rootUri": "file:///Users/jorgerincon/.pub-cache/hosted/pub.dartlang.org/camera_platform_interface-2.3.0",
+      "rootUri": "../../packages/camera_platform_interface",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "camera_web",
-      "rootUri": "file:///Users/jorgerincon/.pub-cache/hosted/pub.dartlang.org/camera_web-0.3.0+1",
+      "rootUri": "../../packages/camera_web",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -584,7 +584,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-11-09T19:19:01.634320Z",
+  "generated": "2022-11-09T20:35:57.065119Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }
